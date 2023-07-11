@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import com.springmvc.domain.Book;
 import com.springmvc.repository.BookRepository;
 
-@Service
+//@Service
 public class BookServiceImpl implements BookService{
-	@Autowired
+//	@Autowired
 	private BookRepository bookRepository;
 //Spring은 BookRepository 타입에 맞는 빈을 찾아 bookRepository 필드에 주입합니다.	
 	public List<Book> getAllBookList() {

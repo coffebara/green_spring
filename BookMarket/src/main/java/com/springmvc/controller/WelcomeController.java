@@ -5,10 +5,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-//@Controller
+@Controller
 //Spring MVC에서 컨트롤러 역할을 하는 클래스임
 public class WelcomeController {
-//	@RequestMapping(value="/home", method = RequestMethod.GET)
+	@RequestMapping(value="/home", method = RequestMethod.GET)
 	// "/home" URL에 대한 GEt 요청 처리
 	public String welcome(Model model) {
 		model.addAttribute("greeting", "Welcome to BookMarker");
