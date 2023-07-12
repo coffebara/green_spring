@@ -12,6 +12,8 @@ public interface BookRepository {
 		Set<Book> getBookListByFilter(Map<String, List<String>> filter);
 		Book getBookById(String bookId);
 		
+		void setNewBook(Book book);
+		
 }
 //사용자가 /filter/{bookFilter} 경로로 GET 요청을 보냅니다.
 //Spring MVC는 {bookFilter}에 해당하는 값을 추출하여 bookFilter 변수에 바인딩합니다

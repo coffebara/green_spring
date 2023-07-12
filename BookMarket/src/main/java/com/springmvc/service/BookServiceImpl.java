@@ -40,4 +40,9 @@ public class BookServiceImpl implements BookService {
 
 		return bookById;
 	}
+	
+	@Override
+	public void setNewBook(Book book) {
+		bookRepository.setNewBook(book);
+	}
 }

@@ -31,7 +31,7 @@ public class Book {
 	private String category;	// 분류
 	private long unitsInStock;	// 재고수
 	private String releaseDate; // 출판일(월/년)
-	private String conditon; // 신규 도서 or 도서 or 전자책
+	private String condition; // 신규 도서 or 도서 or 전자책
 	private MultipartFile bookImage;
 	
 	public Book() {
@@ -97,11 +97,11 @@ public class Book {
 	public void setReleaseDate(String releaseDate) {
 		this.releaseDate = releaseDate;
 	}
-	public String getConditon() {
-		return conditon;
+	public String getCondition() {
+		return condition;
 	}
-	public void setConditon(String conditon) {
-		this.conditon = conditon;
+	public void setCondition(String condition) {
+		this.condition = condition;
 	}
 	public MultipartFile getBookImage() {
 		return bookImage;

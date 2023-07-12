@@ -106,6 +106,11 @@ public class BookRepositoryImpl implements BookRepository {
 			throw new IllegalArgumentException("도서 ID가" + bookId + "인 해당 도서를 찾을 수 없습니다.");
 		}
 		return bookInfo;
+	}// Annotation을 이용한 DI 빈 설정
+	//@Component 일반적인 컴포넌트로 등록하기 위한 클래스에 사용합니다.
+	
+	@Override
+	public void setNewBook(Book book) {
+		listOfBooks.add(book);
 	}
-}// Annotation을 이용한 DI 빈 설정
-//@Component 일반적인 컴포넌트로 등록하기 위한 클래스에 사용합니다.
+}
