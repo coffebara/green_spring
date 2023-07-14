@@ -1,8 +1,11 @@
 package com.springmvc.controller;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springmvc.domain.Book;
@@ -36,6 +40,7 @@ public class BookController {
 	
 	@GetMapping
 	public String requestBookList(Model model) {
+		
 		List<Book> list = bookService.getAllBookList();
 		model.addAttribute("bookList", list);
 		return "books";
@@ -87,14 +92,33 @@ public class BookController {
     public String requestAddBookForm(@ModelAttribute("NewBook") Book book) {  
         return "addBook";
     }  
+    @PostMapping("/add") 
+    public String submitAddNewBook(@ModelAttribute("NewBook") Book book, HttpServletRequest request) {
+    	MultipartFile bookImage = book.getBookImage();  
+    	//신규 도서 등록 페이지에서 커멘드 객체의매개변수 중 도서 이미지에 해당하는 매개변수를
+    	//MultipartFile 객체의 bokImage 변수로 전달합니다.
+    	 String saveName = bookImage.getOriginalFilename();  
+         File saveFile = new File("C:\\upload", saveName); 
+        
+        if (bookImage != null && !bookImage.isEmpty()) {
+            try {
+                bookImage.transferTo(saveFile);  
+            } catch (Exception e) {
+                throw new RuntimeException("도서 이미지 업로드가 실패하였습니다", e);
+            }
+        }
+    	
+        bookService.setNewBook(book); 
+        return "redirect:/books"; 
+    } 
 	
-	@PostMapping("/add")
-	public String submitAddNewBook(@ModelAttribute("NewBook") Book book) {
-		bookService.setNewBook(book);
-		//setNewBook 메서드를 호출하여 저장하는 역할
-		return "redirect:/books";
-	}//redirect:/books를 반환하여 "/books" 경로로 리다이렉트합니다
 	
+	/*
+	 * @PostMapping("/add") public String
+	 * submitAddNewBook(@ModelAttribute("NewBook") Book book) {
+	 * bookService.setNewBook(book); //setNewBook 메서드를 호출하여 저장하는 역할 return
+	 * "redirect:/books"; }//redirect:/books를 반환하여 "/books" 경로로 리다이렉트합니다
+	 */	
 	@ModelAttribute
 	public void addAttributes(Model model) {
 		model.addAttribute("addTitle", "신규 도서 등록");
@@ -105,6 +129,6 @@ public class BookController {
 	//사용자 정의(customizing) 가능
 	public void initBinder(WebDataBinder binder) {
 		binder.setAllowedFields("bookId","name","unitPrice","author","description","publisher",
-								"category","unitInStock","totalPages","releaseDate","condition");
+								"category","unitInStock","totalPages","releaseDate","condition", "bookImage");
 	}//바인딩할 필드를 제한합니다, GET요청으로는 도서 등록 폼을 제공하고,
 }//POST요청으로는 도서를 저장하고 "/books"로 리다이렉트합니다.
